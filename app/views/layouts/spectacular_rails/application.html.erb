@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SpectacularRails</title>
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300' rel='stylesheet' type='text/css'>
+  <%= stylesheet_link_tag "spectacular_rails", media: "all" %>
+  <%= stylesheet_link_tag "spec", @asset_options.clone %>
+  <script>
+    window.spectacular = {
+      options: <%= @spec_options.to_json.html_safe %>
+    };
+    spectacular.options.hasSourceMap = function(file) {
+      return /\\.js/.test(file);
+    };
+    spectacular.options.getSourceURLFor = function(file) {
+      return file.replace('.js', '.coffee')
+    };
+    spectacular.options.getSourceMapURLFor = function(file) {
+      return file.replace('.coffee', 'coffee.map')
+    };
+  </script>
+  <%= javascript_include_tag "spectacular_rails" %>
+  <%= javascript_include_tag @specsuite, @asset_options.clone %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>
