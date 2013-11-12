@@ -18,11 +18,11 @@ buf.push("<ul class=\"expectations\">");
 
 if ( expectation.success)
 {
-buf.push("<li" + (jade.attrs({ 'data-expectation':(i), "class": [('expectation'),('success')] }, {"data-expectation":true})) + ">" + (jade.escape(null == (jade.interp = expectation.description) ? "" : jade.interp)) + "</li>");
+buf.push("<li" + (jade.attrs({ 'data-expectation':(i), "class": [('expectation'),('success')] }, {"data-expectation":true})) + ">" + (null == (jade.interp = expectation.description) ? "" : jade.interp) + "</li>");
 }
 else
 {
-buf.push("<li" + (jade.attrs({ 'data-expectation':(i), "class": [('expectation'),('failure')] }, {"data-expectation":true})) + ">" + (jade.escape(null == (jade.interp = expectation.description) ? "" : jade.interp)) + "</li>");
+buf.push("<li" + (jade.attrs({ 'data-expectation':(i), "class": [('expectation'),('failure')] }, {"data-expectation":true})) + ">" + (null == (jade.interp = expectation.description) ? "" : jade.interp) + "</li>");
 }
     }
 
@@ -33,11 +33,11 @@ buf.push("<li" + (jade.attrs({ 'data-expectation':(i), "class": [('expectation')
 
 if ( expectation.success)
 {
-buf.push("<li" + (jade.attrs({ 'data-expectation':(i), "class": [('expectation'),('success')] }, {"data-expectation":true})) + ">" + (jade.escape(null == (jade.interp = expectation.description) ? "" : jade.interp)) + "</li>");
+buf.push("<li" + (jade.attrs({ 'data-expectation':(i), "class": [('expectation'),('success')] }, {"data-expectation":true})) + ">" + (null == (jade.interp = expectation.description) ? "" : jade.interp) + "</li>");
 }
 else
 {
-buf.push("<li" + (jade.attrs({ 'data-expectation':(i), "class": [('expectation'),('failure')] }, {"data-expectation":true})) + ">" + (jade.escape(null == (jade.interp = expectation.description) ? "" : jade.interp)) + "</li>");
+buf.push("<li" + (jade.attrs({ 'data-expectation':(i), "class": [('expectation'),('failure')] }, {"data-expectation":true})) + ">" + (null == (jade.interp = expectation.description) ? "" : jade.interp) + "</li>");
 }
     }
 
@@ -53,9 +53,14 @@ buf.push("<div class=\"message\">" + (jade.escape(null == (jade.interp = example
 buf.push("</div><div class=\"expectation-message\"></div><div class=\"stack\"></div></div>");;return buf.join("");
 }
 
+spectacular.templates['error'] = function anonymous(locals) {
+var buf = [];
+var locals_ = (locals || {}),message = locals_.message,source = locals_.source;buf.push("<div class=\"error\"><div class=\"message\">" + (jade.escape(null == (jade.interp = message) ? "" : jade.interp)) + "</div><pre class=\"source\">" + (jade.escape(null == (jade.interp = source) ? "" : jade.interp)) + "</pre></div>");;return buf.join("");
+}
+
 spectacular.templates['list'] = function anonymous(locals) {
 var buf = [];
-buf.push("<div id=\"examples\"><header class=\"header\"><button class=\"btn-open-left\"><i class=\"icon-reorder\"></i></button><button class=\"btn-open-right\"><i class=\"icon-plus\"></i></button><button class=\"btn-collapse\"><i class=\"icon-ellipsis-horizontal\"></i></button></header><div></div></div>");;return buf.join("");
+buf.push("<div id=\"examples\"><header class=\"header\"><button class=\"btn-open-left\"><i class=\"icon-reorder\"></i></button><span class=\"all\"><span class=\"value\">0</span>/<span class=\"total\">0</span></span><button class=\"btn-open-right\"><i class=\"icon-plus\"></i></button><button class=\"btn-collapse\"><i class=\"icon-ellipsis-horizontal\"></i></button></header><div></div></div>");;return buf.join("");
 }
 
 spectacular.templates['progress'] = function anonymous(locals) {
@@ -84,6 +89,11 @@ buf.push("<li" + (jade.attrs({ 'data-state':(state), "class": [(state)] }, {"cla
 }).call(this);
 
 buf.push("</ul></span></div>");;return buf.join("");
+}
+
+spectacular.templates['search'] = function anonymous(locals) {
+var buf = [];
+buf.push("<div id=\"search\"><form action=\"/\" method=\"get\"><input id=\"search-input\" type=\"text\" name=\"filter\"/><button type=\"submit\"><i class=\"icon-search\"></i></button></form><style id=\"search-style\"></style></div>");;return buf.join("");
 }
 
 spectacular.templates['viewer'] = function anonymous(locals) {

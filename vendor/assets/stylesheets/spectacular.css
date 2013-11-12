@@ -1,5 +1,5 @@
 body {
-  font-family: Roboto, sans;
+  font-family: Roboto, Helvetica Neue, Helvetica, sans;
   font-weight: 300;
   background: #0b1d26;
   overflow: hidden;
@@ -36,6 +36,51 @@ body {
 #examples {
   z-index: 2;
 }
+#progress .all,
+#examples .all {
+  margin: 0;
+  display: block;
+  font-weight: 100;
+  color: #cfe7e6;
+}
+#progress .all .value,
+#examples .all .value {
+  font-weight: 100;
+}
+#progress.fail .all .total,
+#examples.fail .all .total {
+  color: #ff2814;
+}
+#progress.failure .all,
+#examples.failure .all,
+#progress.failure .all .total,
+#examples.failure .all .total {
+  color: #ff2814;
+}
+#progress.success .all,
+#examples.success .all,
+#progress.success .all .total,
+#examples.success .all .total {
+  color: #64b432;
+}
+#examples .all {
+  padding-left: 8px;
+  font-size: 30px;
+  line-height: 36px;
+  -webkit-text-shadow: -1.5px -1.5px 0px #0b1d26, 1.5px 1.5px 0px #1c4960;
+  -moz-text-shadow: -1.5px -1.5px 0px #0b1d26, 1.5px 1.5px 0px #1c4960;
+  -ms-text-shadow: -1.5px -1.5px 0px #0b1d26, 1.5px 1.5px 0px #1c4960;
+  -o-text-shadow: -1.5px -1.5px 0px #0b1d26, 1.5px 1.5px 0px #1c4960;
+  text-shadow: -1.5px -1.5px 0px #0b1d26, 1.5px 1.5px 0px #1c4960;
+  display: block;
+  position: absolute;
+  left: 48px;
+  top: 4px;
+}
+#examples .all span {
+  font-size: 30px;
+  line-height: 36px;
+}
 #progress {
   color: #aac8c8;
   padding: 10px;
@@ -45,17 +90,9 @@ body {
   bottom: 0;
 }
 #progress .all {
-  display: block;
   font-size: 40px;
   line-height: 43px;
-  font-weight: 100;
-  clear: both;
-}
-#progress .total {
-  color: #cfe7e6;
-}
-#progress .errored {
-  margin-right: 8px;
+  margin: 8px 0;
 }
 #progress .errored .symbol {
   color: #ff9614;
@@ -63,8 +100,8 @@ body {
 #progress .errored.not-zero {
   color: #ff9614;
 }
-#progress .skipped {
-  margin-right: 8px;
+#progress span:not(:first-child):not(.not-zero) .symbol {
+  color: #aac8c8;
 }
 #progress .skipped .symbol {
   color: #ff14dc;
@@ -72,8 +109,8 @@ body {
 #progress .skipped.not-zero {
   color: #ff14dc;
 }
-#progress .pending {
-  margin-right: 8px;
+#progress span:not(:first-child):not(.not-zero) .symbol {
+  color: #aac8c8;
 }
 #progress .pending .symbol {
   color: #ffc85a;
@@ -81,8 +118,8 @@ body {
 #progress .pending.not-zero {
   color: #ffc85a;
 }
-#progress .failure {
-  margin-right: 8px;
+#progress span:not(:first-child):not(.not-zero) .symbol {
+  color: #aac8c8;
 }
 #progress .failure .symbol {
   color: #ff2814;
@@ -90,8 +127,8 @@ body {
 #progress .failure.not-zero {
   color: #ff2814;
 }
-#progress .success {
-  margin-right: 8px;
+#progress span:not(:first-child):not(.not-zero) .symbol {
+  color: #aac8c8;
 }
 #progress .success .symbol {
   color: #64b432;
@@ -99,23 +136,11 @@ body {
 #progress .success.not-zero {
   color: #64b432;
 }
-#progress.fail .all .total {
-  color: #ff2814;
-}
-#progress.failure .all,
-#progress.failure .all .total {
-  color: #ff2814;
-}
-#progress.success .all,
-#progress.success .all .total {
-  color: #64b432;
-}
-#progress.success span:not(:first-child):not(.not-zero) .symbol {
+#progress span:not(:first-child):not(.not-zero) .symbol {
   color: #aac8c8;
 }
 #progress .seed,
 #progress .time {
-  float: left;
   color: #cfe7e6;
   display: inline-block;
   -webkit-border-radius: 3px;
@@ -153,23 +178,34 @@ body {
   padding: 0;
 }
 #progress li {
-  margin: 0;
+  margin: 0 -10px;
   padding: 0;
   position: relative;
   list-style: none;
   padding: 10px;
-  border-bottom: 1px solid #163a4c;
+  border-top: 1px solid #163a4c;
   cursor: pointer;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+#progress li:first-child {
+  border-top: none;
 }
 #progress li:hover {
   background: #163a4c;
 }
+#progress li:hover + li {
+  border-color: #0b1d26;
+}
 #progress li:after {
   content: '\f06e';
   font-family: FontAwesome;
-  color: #fff;
+  color: #aac8c8;
   position: absolute;
-  right: 10px;
+  right: 20px;
 }
 #viewer {
   width: 50%;
@@ -267,30 +303,129 @@ body {
   right: 0;
   top: 0;
   height: 48px;
-  padding: 2px;
   z-index: 2;
-  background: rgba(207,231,230,0.8);
+  background-image: linear-gradient(to bottom, #163a4c 0%, #0b1d26 100%);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
 }
-#examples .header button {
-  background: #aac8c8;
-  border: none;
+#examples .header #search {
+  position: absolute;
+  height: 36px;
+  top: 4px;
+  left: 48px;
+  text-align: right;
+  right: 102px;
+}
+#examples .header #search input {
+  font-family: Roboto, Helvetica Neue, sans;
+  min-width: 200px;
+  width: 200px;
+  height: 100%;
+  padding: 5px 36px 3px 8px;
+  border-top: 1px solid #0b1d26;
+  border-left: 1px solid #0b1d26;
+  border-right: 1px solid #163a4c;
+  border-bottom: 1px solid #163a4c;
+  color: #cfe7e6;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 20px;
+  font-weight: 100;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
   border-radius: 4px;
-  height: 44px;
-  width: 44px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+  -moz-box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+  -ms-box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+  -o-box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+  background-image: linear-gradient(to bottom, #0b1d26 0%, #163a4c 100%);
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+#examples .header #search input:focus {
+  min-width: 164px;
+  width: 50%;
+}
+#examples .header #search button {
+  border: none;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  font-size: 15px;
+  right: 0;
+  top: 3px;
+  color: #aac8c8;
+  -webkit-text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  -moz-text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  -ms-text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  -o-text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+#examples .header button {
+  color: #cfe7e6;
+  background: transparent;
+  border: none;
+  border-left: 1px solid #163a4c;
+  border-right: 1px solid #0b1d26;
+  height: 48px;
+  width: 48px;
+  position: relative;
   font-size: 32px;
   cursor: pointer;
 }
+#examples .header button:active {
+  background: #163a4c;
+}
+#examples .header button.btn-open-left:after {
+  content: '';
+  display: block;
+  position: absolute;
+  margin-left: 1px;
+  left: 100%;
+  top: 0;
+  height: 100%;
+  border-left: 1px solid #163a4c;
+}
 #examples .header button.btn-open-right {
   position: absolute;
-  right: 2px;
+  right: 0px;
 }
 #examples .header button.btn-collapse {
   position: absolute;
-  right: 50px;
+  right: 48px;
+}
+#examples .header button.btn-collapse:before {
+  content: '';
+  display: block;
+  position: absolute;
+  margin-left: -2px;
+  left: 0;
+  top: 0;
+  height: 100%;
+  border-left: 1px solid #0b1d26;
+}
+#examples .value {
+  font-weight: 400;
 }
 #examples .example-group {
   position: relative;
@@ -582,6 +717,9 @@ body {
 #viewer .example .stack {
   margin: 10px 0;
 }
+#viewer .example .message {
+  white-space: pre-wrap;
+}
 #viewer .example .stack {
   font-size: 12px;
   font-family: monospace;
@@ -657,10 +795,54 @@ body {
 #viewer .example .expectation-message {
   border-top: 1px solid #163a4c;
   padding-top: 5px;
+  white-space: pre-wrap;
+  font-family: Menlo, Consolas, monospace;
+  font-size: 0.8em;
 }
 #viewer .example .expectation-message.success {
   color: #64b432;
 }
 #viewer .example .expectation-message.failure {
   color: #ff2814;
+}
+#viewer .example .expectation-message .value {
+  background: #163a4c;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 1px 3px;
+}
+.error {
+  background: rgba(255,40,20,0.3);
+  padding: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  margin-bottom: 8px;
+}
+.error .message {
+  color: #ff2814;
+}
+.error pre {
+  color: #aac8c8;
+}
+@media screen and (max-width: 480px) {
+  #examples .header #search {
+    overflow: hidden;
+  }
+  #examples .header #search input {
+    min-width: 0px;
+    width: 0px;
+    padding-right: 20px;
+  }
+  #examples .header #search input:focus + button {
+    right: 0;
+  }
+  #examples .header #search button {
+    right: -30px;
+  }
 }
