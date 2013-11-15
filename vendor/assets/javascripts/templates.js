@@ -1,10 +1,11 @@
 
 spectacular.templates['card'] = function anonymous(locals) {
 var buf = [];
-var locals_ = (locals || {}),example = locals_.example;var result = (example.result);
+var locals_ = (locals || {}),example = locals_.example,icons = locals_.icons;var result = (example.result);
 var state = (result.state);
 var hasExpectations = (result.expectations.length > 0);
-buf.push("<div" + (jade.attrs({ "class": [('example'),(state)] }, {"class":true})) + "><div class=\"details\"><header><h3>" + (null == (jade.interp = example.fullDescription) ? "" : jade.interp) + "</h3><span class=\"state\">" + (jade.escape(null == (jade.interp = state) ? "" : jade.interp)) + "</span><span class=\"time\"><i class=\"icon-time\"></i>" + (null == (jade.interp = (example.duration / 1000) + "s") ? "" : jade.interp) + "</span></header>");
+icons = { success: 'ok', failure: 'remove', errored: 'remove', pending: 'ellipsis', skipped: 'remove' }
+buf.push("<div" + (jade.attrs({ "class": [('example'),(state)] }, {"class":true})) + "><div class=\"details\"><section><span class=\"state\"><i" + (jade.attrs({ "class": [("icon-" + (icons[state]) + "")] }, {"class":true})) + "></i><span>" + (jade.escape(null == (jade.interp = state) ? "" : jade.interp)) + "</span></span><span class=\"time\"><i class=\"icon-time\"></i><span>" + (null == (jade.interp = (example.duration / 1000) + "s") ? "" : jade.interp) + "</span></span><a" + (jade.attrs({ 'href':("/?filter=" + (example.description) + ""), "class": [('refresh')] }, {"href":true})) + "><i class=\"icon-refresh\"></i><span>Rerun it!</span></a></section><header><h3>" + (null == (jade.interp = example.fullDescription) ? "" : jade.interp) + "</h3></header>");
 if ( hasExpectations)
 {
 buf.push("<ul class=\"expectations\">");
@@ -65,7 +66,7 @@ buf.push("<div id=\"examples\"><header class=\"header\"><button class=\"btn-open
 
 spectacular.templates['progress'] = function anonymous(locals) {
 var buf = [];
-var locals_ = (locals || {}),seed = locals_.seed,chars = locals_.chars;buf.push("<div id=\"progress\"><span><span class=\"seed\"><i class=\"icon-random\"></i><span class=\"value\">" + (jade.escape(null == (jade.interp = seed) ? "" : jade.interp)) + "</span></span><span class=\"time\"><i class=\"icon-time\"></i><span class=\"value\">0s</span></span><span class=\"all\"><span class=\"value\">0</span>/<span class=\"total\">0</span></span><ul>");
+var locals_ = (locals || {}),seed = locals_.seed,chars = locals_.chars;buf.push("<div id=\"progress\"><section><span class=\"seed\"><i class=\"icon-random\"></i><span class=\"value\">" + (jade.escape(null == (jade.interp = seed) ? "" : jade.interp)) + "</span></span><span class=\"time\"><i class=\"icon-time\"></i><span class=\"value\">0s</span></span></section><span class=\"all\"><span class=\"value\">0</span>/<span class=\"total\">0</span></span><ul>");
 // iterate chars
 ;(function(){
   var $$obj = chars;
@@ -88,7 +89,7 @@ buf.push("<li" + (jade.attrs({ 'data-state':(state), "class": [(state)] }, {"cla
   }
 }).call(this);
 
-buf.push("</ul></span></div>");;return buf.join("");
+buf.push("</ul></div>");;return buf.join("");
 }
 
 spectacular.templates['search'] = function anonymous(locals) {
