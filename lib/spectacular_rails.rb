@@ -23,7 +23,7 @@ module SpectacularRails
     trace: true,
     longTrace: false,
     showSource: true,
-    documentation: true,
+    format: 'documentation',
     random: true,
     seed: nil,
     fixturesRoot: 'spectacular/fixtures'
