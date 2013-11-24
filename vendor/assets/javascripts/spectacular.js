@@ -772,7 +772,10 @@
     }
 
     ErrorParser.prototype.splitLines = function() {
-      this.lines = this.stack.split('\n').filter(this.format.filter);
+      this.lines = this.stack.split('\n');
+      if (this.format != null) {
+        this.lines = this.lines.filter(this.format.filter);
+      }
       return this.size = this.lines.length;
     };
 
@@ -796,7 +799,8 @@
     };
 
     ErrorParser.prototype.details = function(line) {
-      return this.format.details(line);
+      var _ref;
+      return (_ref = this.format) != null ? _ref.details(line) : void 0;
     };
 
     return ErrorParser;
@@ -1867,7 +1871,7 @@
         if (error.stack != null) {
           stack = error.stack.split('\n');
           specIndex = spectacular.env.runner.findSpecFileInStack(stack);
-          if (specIndex) {
+          if (specIndex !== -1) {
             error.stack = stack.slice(specIndex).join('\n');
           }
         }
@@ -2917,7 +2921,7 @@
       if (error.stack != null) {
         stack = error.stack.split('\n');
         specIndex = spectacular.env.runner.findSpecFileInStack(stack);
-        if (specIndex) {
+        if (specIndex !== -1) {
           error.stack = stack.slice(specIndex).join('\n');
         }
       }
