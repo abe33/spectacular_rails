@@ -46,6 +46,8 @@ module SpectacularRails
     config.after_initialize do |app|
 
       app.config.assets.paths << Rails.root.join("vendor", "assets", "font")
+      app.config.assets.paths << Rails.root.join("vendor", "assets", "javascripts")
+      app.config.assets.paths << Rails.root.join("vendor", "assets", "stylesheets")
 
       app.routes.prepend do
         mount SpectacularRails::Engine => SpectacularRails.mount_at
