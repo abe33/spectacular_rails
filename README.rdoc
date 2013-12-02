@@ -1,0 +1,3 @@
+=SpectacularRails
+
+Rails Engine that expose routes to run Spectacular tests in browsers through the assets pipeline.
