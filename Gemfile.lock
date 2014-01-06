@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    spectacular_rails (0.0.1)
-      rails (~> 3.2.13)
+    spectacular_rails (1.6.0)
+      rails (>= 3.2.13)
 
 GEM
   remote: https://rubygems.org/
@@ -168,13 +168,13 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   capybara
-  coffee-rails (~> 3.2.1)
+  coffee-rails (>= 3.2.1)
   haml-rails
   jquery-rails
   json
-  rails (= 3.2.13)
+  rails (>= 3.2.13)
   rspec-rails
-  sass-rails (~> 3.2.1)
+  sass-rails (>= 3.2.1)
   spectacular_rails!
   sqlite3
   turn
