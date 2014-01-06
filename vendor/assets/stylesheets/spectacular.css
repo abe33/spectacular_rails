@@ -225,22 +225,6 @@ body {
   position: absolute;
   right: 20px;
 }
-#progress .credits {
-  position: absolute;
-  bottom: 10px;
-  font-size: 0.8em;
-  color: #aac8c8;
-}
-#progress .credits .version {
-  display: inline-block;
-}
-#progress .credits a {
-  color: #3893c1;
-  display: inline-block;
-  margin-left: 5px;
-  padding-left: 5px;
-  border-left: 1px solid rgba(170,200,200,0.4);
-}
 #viewer {
   width: 50%;
   top: 0;
@@ -288,8 +272,8 @@ body {
   -o-text-shadow: 0 1px 1px #fff;
   text-shadow: 0 1px 1px #fff;
 }
-.snapjs-left #examples .example-group:before,
-.snapjs-right #examples .example-group:before {
+.snapjs-left #examples:before,
+.snapjs-right #examples:before {
   content: '';
   display: block;
   position: absolute;

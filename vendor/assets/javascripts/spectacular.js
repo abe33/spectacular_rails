@@ -7,130 +7,114 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-  if (Object.getPropertyDescriptor == null) {
-    Object.getPropertyDescriptor = function(o, name) {
-      var descriptor, proto;
-      proto = o;
-      descriptor = void 0;
-      while (proto && !(descriptor = Object.getOwnPropertyDescriptor(proto, name))) {
-        proto = (typeof Object.getPrototypeOf === "function" ? Object.getPrototypeOf(proto) : void 0) || proto.__proto__;
-      }
-      return descriptor;
-    };
-  }
+  Object.getPropertyDescriptor = function(o, name) {
+    var descriptor, proto;
+    proto = o;
+    descriptor = void 0;
+    while (proto && !(descriptor = Object.getOwnPropertyDescriptor(proto, name))) {
+      proto = (typeof Object.getPrototypeOf === "function" ? Object.getPrototypeOf(proto) : void 0) || proto.__proto__;
+    }
+    return descriptor;
+  };
 
-  if (Function.prototype.include == null) {
-    Function.prototype.include = function() {
-      var excl, excluded, k, mixin, mixins, v, _i, _len, _ref;
-      mixins = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
-      excluded = ['constructor', 'excluded'];
-      for (_i = 0, _len = mixins.length; _i < _len; _i++) {
-        mixin = mixins[_i];
-        excl = excluded.concat();
-        if (mixin.prototype.excluded != null) {
-          excl = excl.concat(mixin.prototype.excluded);
-        }
-        _ref = mixin.prototype;
-        for (k in _ref) {
-          v = _ref[k];
-          if (__indexOf.call(excl, k) < 0) {
-            this.prototype[k] = v;
-          }
-        }
-        if (typeof mixin.included === "function") {
-          mixin.included(this);
+  Function.prototype.include = function() {
+    var excl, excluded, k, mixin, mixins, v, _i, _len, _ref;
+    mixins = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+    excluded = ['constructor', 'excluded'];
+    for (_i = 0, _len = mixins.length; _i < _len; _i++) {
+      mixin = mixins[_i];
+      excl = excluded.concat();
+      if (mixin.prototype.excluded != null) {
+        excl = excl.concat(mixin.prototype.excluded);
+      }
+      _ref = mixin.prototype;
+      for (k in _ref) {
+        v = _ref[k];
+        if (__indexOf.call(excl, k) < 0) {
+          this.prototype[k] = v;
         }
       }
-      return this;
-    };
-  }
+      if (typeof mixin.included === "function") {
+        mixin.included(this);
+      }
+    }
+    return this;
+  };
 
-  if (Function.prototype.extend == null) {
-    Function.prototype.extend = function() {
-      var excl, excluded, k, mixin, mixins, v, _i, _len;
-      mixins = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
-      excluded = ['extended', 'excluded', 'included'];
-      for (_i = 0, _len = mixins.length; _i < _len; _i++) {
-        mixin = mixins[_i];
-        excl = excluded.concat();
-        if (mixin.excluded != null) {
-          excl = excl.concat(mixin.excluded);
-        }
-        for (k in mixin) {
-          v = mixin[k];
-          if (__indexOf.call(excl, k) < 0) {
-            this[k] = v;
-          }
-        }
-        if (typeof mixin.extended === "function") {
-          mixin.extended(this);
+  Function.prototype.extend = function() {
+    var excl, excluded, k, mixin, mixins, v, _i, _len;
+    mixins = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+    excluded = ['extended', 'excluded', 'included'];
+    for (_i = 0, _len = mixins.length; _i < _len; _i++) {
+      mixin = mixins[_i];
+      excl = excluded.concat();
+      if (mixin.excluded != null) {
+        excl = excl.concat(mixin.excluded);
+      }
+      for (k in mixin) {
+        v = mixin[k];
+        if (__indexOf.call(excl, k) < 0) {
+          this[k] = v;
         }
       }
-      return this;
-    };
-  }
-
-  if (Function.prototype.concern == null) {
-    Function.prototype.concern = function() {
-      var mixins;
-      mixins = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
-      this.include.apply(this, mixins);
-      return this.extend.apply(this, mixins);
-    };
-  }
-
-  if (Function.prototype.getter == null) {
-    Function.prototype.getter = function(name, block) {
-      var oldDescriptor, set;
-      oldDescriptor = Object.getPropertyDescriptor(this.prototype, name);
-      if (oldDescriptor != null) {
-        set = oldDescriptor.set;
+      if (typeof mixin.extended === "function") {
+        mixin.extended(this);
       }
-      Object.defineProperty(this.prototype, name, {
-        get: block,
-        set: set,
-        configurable: true,
-        enumerable: true
-      });
-      return this;
-    };
-  }
+    }
+    return this;
+  };
 
-  if (Function.prototype.setter == null) {
-    Function.prototype.setter = function(name, block) {
-      var get, oldDescriptor;
-      oldDescriptor = Object.getPropertyDescriptor(this.prototype, name);
-      if (oldDescriptor != null) {
-        get = oldDescriptor.get;
-      }
-      Object.defineProperty(this.prototype, name, {
-        set: block,
-        get: get,
-        configurable: true,
-        enumerable: true
-      });
-      return this;
-    };
-  }
+  Function.prototype.concern = function() {
+    var mixins;
+    mixins = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+    this.include.apply(this, mixins);
+    return this.extend.apply(this, mixins);
+  };
 
-  if (Function.prototype.accessor == null) {
-    Function.prototype.accessor = function(name, options) {
-      return Object.defineProperty(this.prototype, name, {
-        get: options.get,
-        set: options.set,
-        configurable: true,
-        enumerable: true
-      });
-    };
-  }
+  Function.prototype.getter = function(name, block) {
+    var oldDescriptor, set;
+    oldDescriptor = Object.getPropertyDescriptor(this.prototype, name);
+    if (oldDescriptor != null) {
+      set = oldDescriptor.set;
+    }
+    Object.defineProperty(this.prototype, name, {
+      get: block,
+      set: set,
+      configurable: true,
+      enumerable: true
+    });
+    return this;
+  };
 
-  if (Function.prototype.signature == null) {
-    Function.prototype.signature = function() {
-      var re, _ref;
-      re = /^function(\s+[a-zA-Z_][a-zA-Z0-9_]*)*\s*\(([^\)]+)\)/;
-      return ((_ref = re.exec(this.toString())) != null ? _ref[2].split(/\s*,\s*/) : void 0) || [];
-    };
-  }
+  Function.prototype.setter = function(name, block) {
+    var get, oldDescriptor;
+    oldDescriptor = Object.getPropertyDescriptor(this.prototype, name);
+    if (oldDescriptor != null) {
+      get = oldDescriptor.get;
+    }
+    Object.defineProperty(this.prototype, name, {
+      set: block,
+      get: get,
+      configurable: true,
+      enumerable: true
+    });
+    return this;
+  };
+
+  Function.prototype.accessor = function(name, options) {
+    return Object.defineProperty(this.prototype, name, {
+      get: options.get,
+      set: options.set,
+      configurable: true,
+      enumerable: true
+    });
+  };
+
+  Function.prototype.signature = function() {
+    var re, _ref;
+    re = /^function(\s+[a-zA-Z_][a-zA-Z0-9_]*)*\s*\(([^\)]+)\)/;
+    return ((_ref = re.exec(this.toString())) != null ? _ref[2].split(/\s*,\s*/) : void 0) || [];
+  };
 
   isCommonJS = typeof window === "undefined";
 
@@ -144,7 +128,7 @@
 
   spectacular = exports.spectacular;
 
-  spectacular.version = '1.5.1';
+  spectacular.version = '1.4.0';
 
   spectacular.global = (function() {
     if (typeof window !== 'undefined') {
@@ -552,9 +536,7 @@
             _results = [];
             for (k in obj) {
               v = obj[k];
-              if (obj.hasOwnProperty(k)) {
-                _results.push("" + ind + k + ": " + (utils.inspect(v, depth + 1, lookup)));
-              }
+              _results.push("" + ind + k + ": " + (utils.inspect(v, depth + 1, lookup)));
             }
             return _results;
           })()).join(',\n')) + "\n" + ind.slice(0, -2) + "}";
@@ -790,10 +772,7 @@
     }
 
     ErrorParser.prototype.splitLines = function() {
-      this.lines = this.stack.split('\n');
-      if (this.format != null) {
-        this.lines = this.lines.filter(this.format.filter);
-      }
+      this.lines = this.stack.split('\n').filter(this.format.filter);
       return this.size = this.lines.length;
     };
 
@@ -817,8 +796,7 @@
     };
 
     ErrorParser.prototype.details = function(line) {
-      var _ref;
-      return (_ref = this.format) != null ? _ref.details(line) : void 0;
+      return this.format.details(line);
     };
 
     return ErrorParser;
@@ -1889,7 +1867,7 @@
         if (error.stack != null) {
           stack = error.stack.split('\n');
           specIndex = spectacular.env.runner.findSpecFileInStack(stack);
-          if (specIndex !== -1) {
+          if (specIndex) {
             error.stack = stack.slice(specIndex).join('\n');
           }
         }
@@ -2797,7 +2775,7 @@
       before after given subject its itsInstance itsReturn\
       withParameters fail pending success skip should shouldnt\
       dependsOn spyOn whenPass fixture except only sharedExample\
-      itBehavesLike fixturePath registerFixtureHandler'.split(/\s+/g);
+      itBehavesLike fixturePath'.split(/\s+/g);
       this.rootExampleGroup = new spectacular.ExampleGroup(null, '');
       this.currentExampleGroup = this.rootExampleGroup;
       this.currentExample = null;
@@ -2939,7 +2917,7 @@
       if (error.stack != null) {
         stack = error.stack.split('\n');
         specIndex = spectacular.env.runner.findSpecFileInStack(stack);
-        if (specIndex !== -1) {
+        if (specIndex) {
           error.stack = stack.slice(specIndex).join('\n');
         }
       }
@@ -4873,7 +4851,7 @@
     function ExamplesList() {}
 
     ExamplesList.prototype.init = function(runner, reporter) {
-      var body, btn, openLeft, openRight,
+      var btn, html, openLeft, openRight,
         _this = this;
       this.runner = runner;
       this.reporter = reporter;
@@ -4900,10 +4878,10 @@
           });
         }
       };
-      body = document.body;
+      html = document.querySelector('html');
       openLeft = this.container.querySelector('.btn-open-left');
       openLeft.onclick = function() {
-        if (hasClass(body, 'snapjs-left')) {
+        if (hasClass(html, 'snapjs-left')) {
           return _this.reporter.snapper.close();
         } else {
           return _this.reporter.snapper.open('left');
@@ -4911,7 +4889,7 @@
       };
       openRight = this.container.querySelector('.btn-open-right');
       openRight.onclick = function() {
-        if (hasClass(body, 'snapjs-right')) {
+        if (hasClass(html, 'snapjs-right')) {
           return _this.reporter.snapper.close();
         } else {
           return _this.reporter.snapper.open('right');
